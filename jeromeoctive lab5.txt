@@ -1,0 +1,46 @@
+jerome octive
+
+
+-- 1)
+select city 
+from agents a 
+inner join orders o
+	on o.aid = a.aid and o.cid='c006';
+    
+-- 2)
+select distinct o1.pid from orders o inner join customers c on o.cid = c.cid and c.city = 'Kyoto'
+full join orders o1 on o1.aid = o.aid
+where o.ordNumber is not null
+     
+     
+-- 3)
+select distinct name 
+from customers
+where not cid in 
+	(select cid from Orders); 
+    
+-- 4)
+select distinct name 
+from customers c left outer join orders o
+     on c.cid = o.cid
+     where o.cid is null;
+
+
+-- 5)
+select distinct c.name, a.name 
+from customers c, agents a, orders o
+where c.city = a.city and o.aid = a.aid and o.cid = c.cid;
+
+-- 6)
+select distinct c.name, a.name 
+from customers c, agents a, orders o
+where c.city = a.city;
+
+-- 7)
+select c.name, c.city
+from customers c
+where c.city in (Select city
+		 From products
+		 Group by City
+		 Order by count(pid) ASC
+		 Limit 1);
